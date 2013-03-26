@@ -334,12 +334,18 @@ int main(int argc,char *argv[])
 	{
 		fprintf(stderr,"error opening file %p|%p|%p|%p|%p",configureFile,trainDataFile,
 					testDataFile,modelSaveFile,resultSaveFile);
-		return 0;
+		return -1;
 	}
 	
 	// Average("svd.conf");
 	// print %f Average ua.base ?
 	SVD(configureFile,testDataFile,trainDataFile,modelSaveFile);
+	fclose(modelSaveFile);
+	if(modelSaveFile = fopen("svd_model.pkl","rb") == NULL)
+	{
+		fprintf(stderr,"error opening file svd_mode.pkl");
+		return -1;
+	}
 	Predict(configureFile, modelSaveFile, testDataFile, resultSaveFile);
 	
 	fclose(configureFile);
