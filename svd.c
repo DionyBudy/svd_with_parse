@@ -4,7 +4,7 @@
 #include <complex.h>
 #include <time.h>
 #include <stdlib.h>
-
+#include <Windows.h>
 #define OUTPUT stdout
 
 int gfactorNum;
@@ -17,12 +17,15 @@ int gfactorNum;
 //can be repaced
 inline int readTrainDataFile(FILE *fp,int *uid,int *iid,int *score)
 {
-	char *data = NULL;
+	//char *data = NULL;
+	char data[256];
 	int llen;
 	size_t nbytes;
 	const char *delim = "\t";
 	if(fp == NULL) return 0;
-	if((llen = getline(&data,&nbytes,fp)) == -1) return 0;
+	//if((llen = getline(&data,&nbytes,fp)) == -1) return 0;
+	//char *fgets(char *s, int size, FILE *stream);
+	if(fgets(data,256,fp) == NULL) return 0;
 	//printf("[%s]",data);
 	*uid = atoi(strtok(data,delim)) -1; // arg[0]
 	*iid = atoi(strtok(NULL,delim)) -1;//arg[1]
@@ -30,26 +33,28 @@ inline int readTrainDataFile(FILE *fp,int *uid,int *iid,int *score)
 	//printf("read train data: %d %d %d\n",*uid,*iid,*score);
 	//if(!trfread) getchar();
 	//trfread++;
-	free(data);
+	//free(data);
 	return 1;
 }
 
 //can be repaced
 inline int readTestDataFile(FILE *fp,int *uid,int *iid,int *score)
 {
-	char *data = NULL;
+	//char *data = NULL;
+	char data[256];
 	int llen;
 	size_t nbytes;
 	const char *delim = "\t";
 	if(fp == NULL) return 0;
-	if((llen = getline(&data,&nbytes,fp)) == -1) return 0;
+	//if((llen = getline(&data,&nbytes,fp)) == -1) return 0;
+	if(fgets(data,256,fp) == NULL) return 0;
 	*uid = atoi(strtok(data,delim)) -1; // arg[0]
 	*iid = atoi(strtok(NULL,delim)) -1;//arg[1]
 	*score = atoi(strtok(NULL,delim));//arg[2]
 	//printf("read test data: %d %d %d\n",*uid,*iid,*score);
 	//if(!tefread) getchar();
 	//tefread++;
-	free(data);
+	//free(data);
 	return 1;
 }
 
@@ -57,20 +62,22 @@ inline int readTestDataFile(FILE *fp,int *uid,int *iid,int *score)
 inline int readConfigureFile(FILE *fp,double *averageScore,int *userNum ,int *itemNum ,
 			int *factorNum,double *learnRate,double *regularization)
 {
-	char *data = NULL;
+	//char *data = NULL;
+	char data[256];
 	int llen;
 	size_t nbytes;
 	const char *delim = " ";
 	if(fp == NULL) return 0;
 	rewind(fp);
-	if((llen = getline(&data,&nbytes,fp)) == -1) return 0;
+	//if((llen = getline(&data,&nbytes,fp)) == -1) return 0;
+	if(fgets(data,256,fp) == NULL) return 0;
 	*averageScore = atof(strtok(data,delim)); // arg[0]
 	*userNum = atoi(strtok(NULL,delim));//arg[1]
 	*itemNum = atoi(strtok(NULL,delim));//arg[2]
 	*factorNum = atoi(strtok(NULL,delim));//arg[3]
 	*learnRate = atof(strtok(NULL,delim)); // arg[4]
 	*regularization = atof(strtok(NULL,delim)); // arg[5]
-	free(data);
+	//free(data);
 	return 1;
 }
 
@@ -86,7 +93,8 @@ double Average(const char *fileName)
 	if(fp == NULL) return 0;
 	double result = 0.0;
 	int cnt = 0;
- 	while((llen = getline(&data,&nbytes,fp))!= -1)
+ 	//while((llen = getline(&data,&nbytes,fp))!= -1)
+	while(fgets(data,256,fp) != NULL)
 	{
 		cnt++;
 		strtok(data,delim); // arg[0]
@@ -341,7 +349,7 @@ int main(int argc,char *argv[])
 	// print %f Average ua.base ?
 	SVD(configureFile,testDataFile,trainDataFile,modelSaveFile);
 	fclose(modelSaveFile);
-	if(modelSaveFile = fopen("svd_model.pkl","rb") == NULL)
+	if((modelSaveFile = fopen("svd_model.pkl","rb")) == NULL)
 	{
 		fprintf(stderr,"error opening file svd_mode.pkl");
 		return -1;
