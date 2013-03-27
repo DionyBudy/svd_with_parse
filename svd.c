@@ -4,7 +4,7 @@
 #include <complex.h>
 #include <time.h>
 #include <stdlib.h>
-#include <Windows.h>
+
 #define OUTPUT stdout
 
 int gfactorNum;
@@ -19,8 +19,8 @@ inline int readTrainDataFile(FILE *fp,int *uid,int *iid,int *score)
 {
 	//char *data = NULL;
 	char data[256];
-	int llen;
-	size_t nbytes;
+	//int llen;
+	//size_t nbytes;
 	const char *delim = "\t";
 	if(fp == NULL) return 0;
 	//if((llen = getline(&data,&nbytes,fp)) == -1) return 0;
@@ -42,8 +42,8 @@ inline int readTestDataFile(FILE *fp,int *uid,int *iid,int *score)
 {
 	//char *data = NULL;
 	char data[256];
-	int llen;
-	size_t nbytes;
+	//int llen;
+	//size_t nbytes;
 	const char *delim = "\t";
 	if(fp == NULL) return 0;
 	//if((llen = getline(&data,&nbytes,fp)) == -1) return 0;
@@ -64,8 +64,8 @@ inline int readConfigureFile(FILE *fp,double *averageScore,int *userNum ,int *it
 {
 	//char *data = NULL;
 	char data[256];
-	int llen;
-	size_t nbytes;
+	//int llen;
+	//size_t nbytes;
 	const char *delim = " ";
 	if(fp == NULL) return 0;
 	rewind(fp);
@@ -87,8 +87,8 @@ double Average(const char *fileName)
 	FILE *fp = fopen(fileName,"r");
 	char *data = NULL;
 	char *tmp;
-	int llen;
-	size_t nbytes;
+	//int llen;
+	//size_t nbytes;
 	const char *delim = " ";
 	if(fp == NULL) return 0;
 	double result = 0.0;
